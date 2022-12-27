@@ -1,0 +1,110 @@
+body {
+	background: linear-gradient(-45deg, #ee7, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	-webkit-animation: gradient 15s ease infinite;
+	        animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+@-webkit-keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+th ,td,th{
+  border: solid 2px 2px;
+  box-shadow: 2px;
+  border-style:ridge;
+  color: black;
+  background-color:whitesmoke;
+  position: relative;
+ left: 180px;
+  padding: 20px;
+  opacity: 0.8;
+  box-shadow: 5px 10px 5px 2px grey;
+  
+  
+  
+}
+form{
+  padding: 40px;
+  margin: 30px;
+  border-radius: solid 2px;
+
+}
+input{
+  padding: 10px;
+  margin: 10px;
+  color: black;
+}
+
+.container{
+
+  width: 500px;
+  height: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color:white;
+  border-radius: 40px;
+  opacity: 0.8;
+  font-size: 2px;
+  
+
+}
+::placeholder{
+
+  color: darkblue;
+
+}
+*{
+  margin: 0px;
+}
+.textbox{
+  margin-left: 10px;
+  
+  
+}
+#areaname{
+  width: 30px;
+  
+}
+.main{
+  text-align: center;
+}
+::placeholder{
+  color: black;
+  
+}
+#areatype{
+  width: 190px;
+  height: 40px;
+  background-color: aquamarine;
+}
+#btn{
+  margin-left: 10px;
+  padding: 10px;
+  width: 100px;
+  background-color: green;
+  color: white;
+  border-radius: 8px;
+}
