@@ -4,113 +4,87 @@ import Dropdown from'react-dropdown';
 import 'react-dropdown/style.css';
 
    const Insert=()=>{
-    var hratype=""
-    var hraAmt=0
-    var pfAmt=0
-    var specialAmt=0
-    let[emp,setEmp]=useState ({
+    
+    const[emp,setEmp]=useState ({
             empEmployeeName:"",
             empCtc:"",
             empBasic:"",
-            empHraType:hratype,
-            empHra:hraAmt,
-            empPf:pfAmt,
+            empHraType:"",
+            empHra:"",
+            empPf:"",
             empLta:"",
             empFual:"",
-            empSpecial:specialAmt,
+            empSpecial:"",
         })
         const options=[
             {value:'metro',label:'metro'},
             {value:'Non-Metro',label:'Non-Metro'},
                     
         ];  
-
-        let{empEmployeeName,empCtc,empHra,empPf,empLta,empFual,empBasic,empSpecial,empHraType}=emp;
-
-        function oninputhandler(){
-            var txt=document.getElementById("a1").required=("please enter your Name");
-            document.getElementById("item").innerHTML=txt;
-            // var txt1=document.getElementById("a2").required=("please ctc");
-            // document.getElementById("items").innerHTML=txt1;
-
-        }
-        
-            // var eBasic,eHra,ePf,eHraType,eSpecial;
-             //eBasic=document.getElementById("s").value;
-            //  
-            // ePf=eBasic*12/100;
-            // eSpecial=parseInt(eBasic)+parseInt(eHra+eHraType-ePf);
-            // document.getElementById("HraType").value=eHraType;
-            // document.getElementById("Hra").value=eHra;
-            // document.getElementById("Pf").value=ePf;
-            // document.getElementById("Special").value=eSpecial;  
-            
-    const onchange=e=>{
-        setEmp ({...emp,[e.target.name]:e.target.value});
-        
-setdrop()
-        
-        
     
 
-    }
-    function setdrop(){
-       hratype=document.getElementById("areatype").value
+    const{empEmployeeName,empCtc,empHra,empPf,empLta,empFual,empBasic,empSpecial,empHraType}=emp;  
 
-        
-        var basicAmt=empBasic
-        // var hraAmt=0
-        // var pfAmt=0
-        if(hratype == "metro")
-        
-        {
-            hraAmt=(basicAmt/100)*50
-            pfAmt=(basicAmt/100)*12
-            
-        }
-        if(hratype=="Non-Metro"){
-            hraAmt=(basicAmt/100)*40
-            pfAmt=(basicAmt/100)*12
-        }
-        empHra=hraAmt
-        empHraType=hratype
-          document.getElementById("hraAmt").value=hraAmt
-        
-          document.getElementById("pfAmt").value=pfAmt
-          
-            setTotal()  
+    const onchange=e=>{
+        debugger
+        if(e.target.name == "empFual" && parseInt(e.target.value) > 1800)
+    {
+        e.target.value=1800
     }
-    function setTotal(){
+        setEmp ({...emp, [e.target.name]: e.target.value});
+        onpass()
 
-        
-        var ltaAmt=parseInt(empLta== "" ? 0 : empLta)
-        //var ltaAmt=parseInt(document.getElementById("ltaAmt").value)
-        var fualAmt=parseInt(empFual == "" ? 0 : empFual)
-        //var fualAmt=parseInt(document.getElementById("fualAmt").value)
-        var basicAmt=parseInt(empBasic)
-        var hraAmt=parseInt(empHra)
-        var pfAmt=parseInt(empPf)
+   
+}
+function onpass(){
+    
+    var hravalue=document.getElementById("areatype").value
+    
+    
+    if(hravalue == "metro")
+    {
+    
+    var hraValue = (parseInt(document.getElementById("basicAmt").value)/100) * 50
+    document.getElementById("hraAmt").value=hraValue
+
+    
+    var pfValue = (parseInt(document.getElementById("basicAmt").value)/100) * 12 
+    document.getElementById("pfAmt").value=pfValue
+   
+    var specialAmt = parseInt(document.getElementById("basicAmt").value) -
+    (parseInt(document.getElementById("ltaAmt").value) + parseInt(document.getElementById("fualAmt").value) +
+    parseInt(document.getElementById("hraAmt").value) + parseInt(document.getElementById("pfAmt").value))
+    document.getElementById("specialAmt").value=specialAmt
+    }
+    if(hravalue == "Non-Metro")
+    {
        
-        if(fualAmt>1800)
-        {            
-            document.getElementById("fualAmt").value=1800        
-        }
-        specialAmt=basicAmt-(ltaAmt+fualAmt+hraAmt+pfAmt)
+        var hraValue = (parseInt(document.getElementById("basicAmt").value)/100) * 40
+        document.getElementById("hraAmt").value=hraValue
+    
+       
+        var pfValue = (parseInt(document.getElementById("basicAmt").value)/100) * 12 
+        document.getElementById("pfAmt").value=pfValue
+        
+        var specialAmt = parseInt(document.getElementById("basicAmt").value) -
+        (parseInt(document.getElementById("ltaAmt").value) + parseInt(document.getElementById("fualAmt").value) +
+        parseInt(document.getElementById("hraAmt").value) + parseInt(document.getElementById("pfAmt").value))
         document.getElementById("specialAmt").value=specialAmt
+}
 
-       
-    }
+}
 
     const onemp = async  =>{
+        debugger
+        emp.empHra= document.getElementById("hraAmt").value
+        emp.empPf=document.getElementById("pfAmt").value
+        emp.empSpecial=document.getElementById("specialAmt").value
+        emp.empHraType=document.getElementById("areatype").value
         
-        axios.post("https://localhost:7078/api/userapplication/Insertapplication",emp);
+         var response = axios.post("https://localhost:7078/api/userapplication/Insertapplication",emp);
         alert("data Inserted");
-        console.log(onemp   )
+       
     };
-
-    
-   
-
     return(
         
         <div className='container'>
@@ -118,38 +92,37 @@ setdrop()
         <form onSubmit={e=>onemp(e)}>
         <div className='textbox'>   
             
-            <input name="empEmployeeName" id='a1' type="text"value={empEmployeeName}
+            <input name="empEmployeeName" id='a1' required type="text"value={empEmployeeName}
             onChange={e =>onchange(e)}
             placeholder='EMPLOYEE NAME'/>
-            <p onClick={oninputhandler} id="item"></p>
+            {/* <p onClick={oninputhandler} id="item"></p> */}
             
         
-            <input  name="empCtc"type="text" value={empCtc}
+            <input  name="empCtc"type="text" required  value={empCtc}
             onChange={e =>onchange(e)}
             placeholder='CTC'/><br/>
-            <p onClick={oninputhandler} id="items"></p>
-
+           
+           
            <input name="empBasic" type="text"  id="basicAmt"value={empBasic}
             onChange={e =>onchange(e)}
             placeholder='BASIC'/><br/>
 
-            {/* <div id="droptxt">
-             <Dropdown id="areaname" class="drop" options={options} name='empHraType'   onChange={(value)=>
-             setdrop()} value={emp.empHraType}placeholder='select option'></Dropdown>
-            </div> */}
-              <select 
-              onChange={(value)=>
-             setdrop()}  
-             id="areatype"  >
+    
+              {/* <Dropdown id="areaname" class="drop" options={options} name='empHraType'  onChange={(value)=>
+             onpass({...emp,empHraType:value.value})} value={emp.empHraType}placeholder='select option'></Dropdown>
+             
+               */}
+               {/* <Dropdown id="areaname" class="drop" options={options} name='empHraType'  onChange={(value)=>
+             onpass(value)} value={emp.empHraType}placeholder='select option'></Dropdown>
+              */}
+               <select 
+              onChange={()=>
+             onpass()} 
+              name="empHraType"id="areatype">
                 <option selected disabled>SELECT OPTION</option>    
                 <option>metro</option>
                 <option>Non-Metro</option>
               </select>
-
-             {/* <Dropdown id="areaname" class="drop" options={options} name='empHraType'  onChange={(value)=>
-             onchange({...emp,empHraType:value.value})} value={emp.empHraType}placeholder='select option'></Dropdown>
-             */}
-              
               <br/>
             
             <input name="empHra" type="text" id="hraAmt" 
@@ -177,7 +150,7 @@ setdrop()
             <input name="empSpecial" type="text" id="specialAmt"  
             onChange={e =>onchange(e)}placeholder='SPECIAL'/><br/>
             </div>
-            <button type="submit" onClick={setdrop} id="btn" value="Submit">SAVE</button>
+            <button type="submit" id="btn" value="Submit">SAVE</button>
         </form>
         </div>
     );
